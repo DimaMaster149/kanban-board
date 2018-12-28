@@ -1,0 +1,94 @@
+{
+  "columns": [
+    {
+      "id": 1,
+      "name":"First column",
+      "cards":[
+        {
+          "id":1,
+          "name":"First card"
+        },
+        {
+          "id":2,
+          "name":"Second card"
+        },
+        {
+          "id":3,
+          "name":"Third card"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name":"Second column",
+      "cards":[
+        {
+          "id":4,
+          "name":"Fourth card"
+        },
+        {
+          "id":5,
+          "name":"Fifht card"
+        },
+        {
+          "id":6,
+          "name":"Sixth card"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name":"Third column",
+      "cards":[
+        {
+          "id":7,
+          "name":"Seventh card"
+        },
+        {
+          "id":8,
+          "name":"Eight card"
+        },
+        {
+          "id":9,
+          "name":"Nineth card"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name":"Fourth column",
+      "cards":[
+        {
+          "id":10,
+          "name":"Tenth card"
+        },
+        {
+          "id":11,
+          "name":"Eleventh card"
+        },
+        {
+          "id":12,
+          "name":"Twelveth card"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name":"Fifth column",
+      "cards":[
+        {
+          "id":13,
+          "name":"Thirteenth card"
+        },
+        {
+          "id":14,
+          "name":"Fourteenth card"
+        },
+        {
+          "id":15,
+          "name":"Fifteenth card"
+        }
+      ]
+    }
+  ]
+}
