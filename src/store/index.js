@@ -23,7 +23,8 @@ export const store = new Vuex.Store({
 
   actions: {
     setColumns: (context, data) => {
-     context.commit('setColumns', data);
+      console.log(data, 'setcolumns action')
+      context.commit('setColumns', data);
     },
 
     setCards: (context, data) => {
@@ -39,7 +40,7 @@ export const store = new Vuex.Store({
       const Column = {
         id: Date.now(),
         name: data,
-        cards:[]
+        cards: []
       }
       const columns = context.getters.getColumns;
       let updatedColumns = columns.push(Column);
@@ -57,9 +58,37 @@ export const store = new Vuex.Store({
       let columnIndex = columns.indexOf(updateColumn);
       let updatedColumns = columns[columnIndex] = updateColumn;
       context.commit('setColumns', updatedColumns);
-    }
-  },
+    },
 
+    editCard: (context, data) => {
+      const Card = {
+        id: data.id,
+        name: data.name
+      }
+      console.log(data);
+      let columns = context.getters.getColumns.map((column) => {
+        if (column.id == data.columnId) {
+          column.cards.map((card) => {
+            if (card.id == data.id) {
+              card.name = data.name;
+            }
+            return card;
+          })
+        }
+        return column;
+      })
+    },
+
+    editColumn: (context, data) => {
+      let columns = context.getters.getColumns.map((column) => {
+        if (column.id == data.id) {
+          column.name = data.name
+        }
+        return column;
+      })
+    },
+  },
+  
   mutations: {
     setColumns: (state, payload) => {
       if (!payload) {
@@ -69,17 +98,5 @@ export const store = new Vuex.Store({
 
       state.columns = payload;
     },
-
-
-    // setCards: (commit, state, payload) => {
-    //   if (!payload) {
-    //     console.log('no cards for mutation');
-    //     return
-    //   }
-
-    //   const { cards, columnId } = payload;
-    //   let updatedColumns = state.columns[columnId - 1].cards = cards;
-    //   commit('setColumns', updatedColumns);
-    // }
   }
 });

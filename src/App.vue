@@ -9,7 +9,7 @@
         @Add="drag=false">
         
         <column class="drag-column"
-          v-for="column in Columns"
+          v-for="column in updatedColumns"
           :key="column.id"
           :column="column"
         ></column>
@@ -53,22 +53,32 @@ export default {
     }
   },
   created(){
-    console.log(JSON.parse(window.localStorage.vuex).columns)
-    this.columns = window.localStorage.vuex ? JSON.parse(window.localStorage.vuex).columns : data.columns;
+    this.columns = window.localStorage.vuex 
+    ? JSON.parse(window.localStorage.vuex).columns 
+    : data.columns;
   },
   computed:{
-    Columns(){
+    updatedColumns(){
+      console.log('computed col', this.columns )
       this.columns ? 
       this.$store.dispatch('setColumns', this.columns) : 
       this.$store.dispatch('setColumns', data.columns);
       return this.columns? this.columns : data.columns;
     }
   },
+  // watch:{
+  //   columns: {
+  //     handler: function(newValue) {
+  //       console.log(newValue, 'watcher')
+  //       this.$store.dispatch('setColumns', newValue);
+  //     },
+  //   }
+  // },
   methods:{
     addColumn(){
       this.$store.dispatch('addColumn', this.newColumn);
       this.showAddColumnField = false;
-    }
+    },
   }
 }
 </script>
@@ -92,7 +102,7 @@ export default {
   position: relative;
 }
 .add-column-area {
-  margin: 20px 20px 0 0;
+  margin: 10px 20px 0 0;
   width: 200px;
   height: 50px;
   background-color: #FDFEFD;

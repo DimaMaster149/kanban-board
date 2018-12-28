@@ -1,19 +1,35 @@
 <template>
   <div class="column">
    <div class="column-name"
-   > {{column.name}} </div>
+   > 
+     <span :class="{
+     'hide':showEditColumn
+    }" @click="showEditColumn=true"
+    > {{column.name}}  </span>
+
+   <div :class="{
+     'hide': !showEditColumn
+   }" class="edit-column">
+    <input type="text"
+      class="name-edit"
+      v-model="columnName">
+    <button class="button-save" @click="editColumn"> Save</button>
+   </div>
+  
+   </div>
 
       <draggable class="drag-card"
         v-model="cards"
         :options="{group: 'card-list', sort:true}"
         @start="drag=true"
-        @end = "onEnd"
+        @end="drag=false"
         :id="column.id">
         
           <card
-            v-for="card in Cards"
+            v-for="card in cards"
             :key="card.id"
             :card="card"
+            @edit-card="editCard"
           ></card>
 
       </draggable>
@@ -25,7 +41,7 @@
                'show' : !showAddCardField,
                'top' : cards.length == 0}"
       >
-        add new column
+        add new card
       </button>
       <div
        :class="{'show add-card' : showAddCardField,
@@ -49,22 +65,11 @@ import Card from './Card'
     data(){
       return{
         cards:[],
+        columnName: this.column.name,
         columnId: null,
         showAddCardField:false,
-        newCard:''
-      }
-    },
-    computed:{
-      Cards(){
-        setTimeout(()=> {
-          if(!this.cards){
-            return
-          }
-          const cards = this.cards;
-          const columnId = this.columnId;
-          this.$store.dispatch('setCards', {cards, columnId})
-        },300)
-        return this.cards;
+        newCard:'',
+        showEditColumn:false
       }
     },
     created(){
@@ -72,15 +77,33 @@ import Card from './Card'
       this.columnId = this.column.id;
     },
     methods:{
-      onEnd(){
-
-      },
       addCard(){
         const card = this.newCard;
         const columnId = this.columnId;
         this.$store.dispatch('addCard', {card, columnId});
         this.showAddCardField = false;
+      },
+      editCard(data){
+        const {name, id} = data;
+        const columnId = this.columnId;
+        this.$store.dispatch('editCard', {name, id, columnId});
+      },
+      editColumn(){
+        this.showEditColumn = false;
+        const name = this.columnName;
+        const id = this.columnId;
+        this.$store.dispatch('editColumn', {name, id})
       }
+    },
+    watch:{
+      cards: function (oldCards, newCards) {
+        if(!this.cards) {
+          return
+        }
+          const cards = this.cards;
+          const columnId = this.columnId;
+          this.$store.dispatch('setCards', {cards, columnId})
+     }
     },
     props:{
       column:{
@@ -92,12 +115,17 @@ import Card from './Card'
 </script>
 
 <style>
+.edit-column{
+  width:100%;
+  display:flex;
+  flex-direction: row;
+}
 .top{
   position:relative;
-  bottom:29%;
+  bottom:55px;
 }
 .column{
-  min-width:200px;
+  min-width:250px;
   height:auto;
   margin:10px;
   background-color: #EAEDED;
@@ -129,5 +157,23 @@ import Card from './Card'
   display:flex;
   width:100%;
   height: 35px;
+}
+.hide{
+  display:none;
+}
+.button-save {
+  background-color:#52BE80;
+  border: none;
+  font-size: 14px;
+  margin-left: 2px;
+}
+.name-edit {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  border-radius: 2px;
+}
+.name-edit:focus{
+  border:1px solid #ABEBC6;
 }
 </style>
