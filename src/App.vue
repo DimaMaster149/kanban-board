@@ -9,7 +9,7 @@
         @Add="drag=false">
         
         <column class="drag-column"
-          v-for="column in updatedColumns"
+          v-for="column in columns"
           :key="column.id"
           :column="column"
         ></column>
@@ -53,27 +53,32 @@ export default {
     }
   },
   created(){
-    this.columns = window.localStorage.vuex 
-    ? JSON.parse(window.localStorage.vuex).columns 
-    : data.columns;
-  },
-  computed:{
-    updatedColumns(){
-      console.log('computed col', this.columns )
-      this.columns ? 
-      this.$store.dispatch('setColumns', this.columns) : 
-      this.$store.dispatch('setColumns', data.columns);
-      return this.columns? this.columns : data.columns;
+    if(this.$store.state.columns){
+      this.columns = this.$store.getters.getColumns;
+    } else{
+      this.$store.commit('setColumns', data.columns);
+      this.columns = data.columns;
     }
   },
-  // watch:{
-  //   columns: {
-  //     handler: function(newValue) {
-  //       console.log(newValue, 'watcher')
-  //       this.$store.dispatch('setColumns', newValue);
-  //     },
+  // computed:{
+  //   updatedColumns(){
+  //     // console.log('computed col', this.columns )
+  //     this.columns ? 
+  //     this.$store.dispatch('setColumns', this.columns) : 
+  //     this.$store.dispatch('setColumns', data.columns);
+  //     return this.columns? this.columns : data.columns;
   //   }
   // },
+  watch:{
+    columns: {
+      handler: (value) => {
+        debugger;
+        console.log(this.columns, 'this.columns from watcher')
+        console.log(value, 'value from watcher')
+        this.$store.dispatch('setColumns', value);
+      },
+    }
+  },
   methods:{
     addColumn(){
       this.$store.dispatch('addColumn', this.newColumn);

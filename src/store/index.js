@@ -12,7 +12,7 @@ const vuexLocal = new VuexPersistence({
 
 export const store = new Vuex.Store({
   state: {
-      columns: [],
+      columns: null,
   },
   plugins: [vuexLocal.plugin],
   getters:{
@@ -23,7 +23,7 @@ export const store = new Vuex.Store({
 
   actions: {
     setColumns: (context, data) => {
-      console.log(data, 'setcolumns action')
+      // console.log(data, 'setcolumns action')
       context.commit('setColumns', data);
     },
 
@@ -32,8 +32,10 @@ export const store = new Vuex.Store({
       let columns = context.getters.getColumns;
       let updateColumn = columns.find((column) => column.id == columnId);
       let columnIndex = columns.indexOf(updateColumn);
-      let updatedColumns = columns[columnIndex].cards = cards;
-      context.commit('setColumns', updatedColumns);
+      columns[columnIndex] = {};
+      columns[columnIndex].cards = cards;
+      // let updatedColumns = columns[columnIndex].cards = cards;
+      context.commit('setColumns', columns);
     },
     
     addColumn: (context, data) => {
