@@ -23,18 +23,25 @@ export const store = new Vuex.Store({
 
   actions: {
     setColumns: (context, data) => {
-      // console.log(data, 'setcolumns action')
+      console.log(data, 'setcolumns action')
       context.commit('setColumns', data);
     },
 
     setCards: (context, data) => {
+      console.log('setCards action', data)
+      debugger;
+
       const { cards, columnId } = data;
+
       let columns = context.getters.getColumns;
       let updateColumn = columns.find((column) => column.id == columnId);
       let columnIndex = columns.indexOf(updateColumn);
-      columns[columnIndex] = {};
+
+      // columns[columnIndex] = {};
+      columns[columnIndex] = updateColumn;
       columns[columnIndex].cards = cards;
       // let updatedColumns = columns[columnIndex].cards = cards;
+
       context.commit('setColumns', columns);
     },
     

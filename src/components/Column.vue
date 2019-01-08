@@ -66,7 +66,7 @@ import Card from './Card'
       return{
         cards:[],
         columnName: this.column.name,
-        columnId: null,
+        columnId: '',
         showAddCardField:false,
         newCard:'',
         showEditColumn:false
@@ -96,14 +96,24 @@ import Card from './Card'
       }
     },
     watch:{
-      cards: function (oldCards, newCards) {
-        if(!this.cards) {
-          return
-        }
-          const cards = this.cards;
-          const columnId = this.columnId;
-          this.$store.dispatch('setCards', {cards, columnId})
-     }
+      cards: {
+        handler: function(value) {
+          if(!value) {
+             return
+          }
+          console.log(value, 'value from cards watcher')
+          this.$store.dispatch('setCards', {cards:value, columnId: this.columnId})
+
+        },
+      }
+      // cards: (value) =>{
+    //     if(!this.cards) {
+    //       return
+    //     }
+    //       const cards = this.cards;
+    //       const columnId = this.columnId;
+    //       this.$store.dispatch('setCards', {cards, columnId})
+    //  }
     },
     props:{
       column:{

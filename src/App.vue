@@ -47,40 +47,45 @@ export default {
   },
   data(){
     return{
-      columns:null,
+      //columns:null,
       showAddColumnField:false,
       newColumn:''
     }
   },
   created(){
     if(this.$store.state.columns){
-      this.columns = this.$store.getters.getColumns;
+      console.log('if created');
+      //this.columns = this.$store.getters.getColumns;
     } else{
-      this.$store.commit('setColumns', data.columns);
-      this.columns = data.columns;
+      console.log('else created');
+      this.$store.dispatch('setColumns', data.columns);
+      //this.columns = data.columns;
     }
   },
-  // computed:{
-  //   updatedColumns(){
-  //     // console.log('computed col', this.columns )
-  //     this.columns ? 
-  //     this.$store.dispatch('setColumns', this.columns) : 
-  //     this.$store.dispatch('setColumns', data.columns);
-  //     return this.columns? this.columns : data.columns;
-  //   }
-  // },
+  computed:{
+    columns() {
+      return this.$store.state.columns;
+    },
+    // updatedColumns(){
+    //   // console.log('computed col', this.columns )
+    //   console.log('watcher');
+    //   this.columns ? 
+    //   this.$store.dispatch('setColumns', this.columns) : 
+    //   this.$store.dispatch('setColumns', data.columns);
+    //   return this.columns ? this.columns : data.columns;
+    // }
+  },
   watch:{
     columns: {
-      handler: (value) => {
-        debugger;
-        console.log(this.columns, 'this.columns from watcher')
+      deep:true,
+      handler: function(value) {
         console.log(value, 'value from watcher')
         this.$store.dispatch('setColumns', value);
       },
     }
   },
   methods:{
-    addColumn(){
+    addColumn() {
       this.$store.dispatch('addColumn', this.newColumn);
       this.showAddColumnField = false;
     },
