@@ -47,7 +47,7 @@
        :class="{'show add-card' : showAddCardField,
                'hide' : !showAddCardField,
                'top' : cards.length == 0}">
-        <input type="text" v-model="newCard" class="card-input">
+        <card-text-area type="text" v-model="newCard" class="card-input"/>
         <button class="add-card-button" @click="addCard"> Add</button>
       </div>
 
@@ -57,9 +57,12 @@
 <script>
 import draggable from 'vuedraggable'
 import Card from './Card'
+import CardTextArea from './lib/input/CardTextArea'
+
   export default {
     components:{
       draggable,
+      CardTextArea,
       Card
     },
     data(){
@@ -101,7 +104,6 @@ import Card from './Card'
           if(!value) {
              return
           }
-          console.log(value, 'value from cards watcher')
           this.$store.dispatch('setCards', {cards:value, columnId: this.columnId})
 
         },
@@ -182,8 +184,5 @@ import Card from './Card'
   border: none;
   padding: 4px;
   border-radius: 2px;
-}
-.name-edit:focus{
-  border:1px solid #ABEBC6;
 }
 </style>

@@ -43,29 +43,30 @@ export default {
   name: 'App',
   components: {
     draggable,
-    Column
+    Column,
   },
   data(){
     return{
       //columns:null,
       showAddColumnField:false,
-      newColumn:''
+      newColumn:'',
+      columns:[]
     }
   },
   created(){
     if(this.$store.state.columns){
       console.log('if created');
-      //this.columns = this.$store.getters.getColumns;
+      this.columns = this.$store.getters.getColumns;
     } else{
       console.log('else created');
       this.$store.dispatch('setColumns', data.columns);
-      //this.columns = data.columns;
+      this.columns = data.columns;
     }
   },
-  computed:{
-    columns() {
-      return this.$store.state.columns;
-    },
+  // computed:{
+  //   columns() {
+  //     return this.$store.state.columns;
+  //   },
     // updatedColumns(){
     //   // console.log('computed col', this.columns )
     //   console.log('watcher');
@@ -74,12 +75,14 @@ export default {
     //   this.$store.dispatch('setColumns', data.columns);
     //   return this.columns ? this.columns : data.columns;
     // }
-  },
+  //},
   watch:{
     columns: {
       deep:true,
       handler: function(value) {
-        console.log(value, 'value from watcher')
+        if(!value) {
+          return
+        }
         this.$store.dispatch('setColumns', value);
       },
     }

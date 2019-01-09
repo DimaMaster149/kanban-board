@@ -28,9 +28,6 @@ export const store = new Vuex.Store({
     },
 
     setCards: (context, data) => {
-      console.log('setCards action', data)
-      debugger;
-
       const { cards, columnId } = data;
 
       let columns = context.getters.getColumns;

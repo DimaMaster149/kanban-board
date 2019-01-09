@@ -1,35 +1,45 @@
 <template>
     <div class="card" :id="'card-'+card.id">
-      <input class="card-input" 
+      <CardTextArea
+      v-model="name"
+      :disabled="disabled"
+      >
+      </CardTextArea>
+
+      <!-- <input class="card-input" 
       type="text" 
       v-model="name" 
-      :disabled="disabled">
+      :disabled="disabled"> -->
 
       <span :class="{
-      'edit-card': disabled,
-      'hide':!disabled}"
-      @click="disabled=false"
-      > ? </span>
+        'edit-card': disabled,
+        'hide':!disabled}"
+        @click="disabled=false"
+        > <i class="material-icons">edit</i> 
+      </span>
 
       <span :class="{
         'hide': disabled,
         'save-card': !disabled}" 
         @click="editCard"
-        > + </span>
+        > <i class="material-icons"> done_outline </i>
+      </span>
     </div>
 </template>
 
 <script>
 import OnClickOutside from "./OnClickOutside.vue"
+import CardTextArea from "./lib/input/CardTextArea"
 
   export default {
     components:{
-      OnClickOutside
+      OnClickOutside,
+      CardTextArea
     },
     data(){
       return{
         name:this.card.name,
-        disabled:true
+        disabled:true,
       }
     },
     methods:{
@@ -54,13 +64,15 @@ import OnClickOutside from "./OnClickOutside.vue"
   }
 </script>
 
-<style>
+<style scoped>
 .card-input{
   width: 100%;
   height: 30px;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor:pointer;
+  border: none;
+  margin-left: 5px;
 }
 .card{
   display: flex;
@@ -70,9 +82,11 @@ import OnClickOutside from "./OnClickOutside.vue"
   height: 35px;
   background-color: white;
   border-radius: 8px;
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
   cursor:pointer;
   position:relative;
+  height: auto;
+  min-height: 35px;
 }
 .save-card{
   display:block;
@@ -81,7 +95,8 @@ import OnClickOutside from "./OnClickOutside.vue"
   opacity:.6;
   top: 0;
   right: 0;
-  padding: 5px;
+  padding: 0px;
+  color:green;
 }
 .edit-card{
   display:none;
@@ -89,10 +104,17 @@ import OnClickOutside from "./OnClickOutside.vue"
   font-size: 20px;
   opacity:.6;
   top: 0;
-  right: 0;
-  padding: 5px;
+  right: 0;    
+  padding: 0px;
+  background: #C9C8C9;
 }
 .card:hover .edit-card{
   display:block;
+}
+.card-input:focus {
+  border:none;
+}
+.card:focus{
+  border:none !important;
 }
 </style>
