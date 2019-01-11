@@ -69,8 +69,13 @@ export default {
     border:none;
     height:auto;
     resize: none;
+    border-radius: 8px;
+    margin-left:2px;
+    cursor:pointer;
+    user-select: none;
   }
-  .text-area:focus{
+  .text-area:focus, .text-area:active{
     border:none;
+    outline-color: none;
   }
 </style>

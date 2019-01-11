@@ -30,6 +30,7 @@
             :key="card.id"
             :card="card"
             @edit-card="editCard"
+            @delete-card="deleteCard"
           ></card>
 
       </draggable>
@@ -96,16 +97,21 @@ import CardTextArea from './lib/input/CardTextArea'
         const name = this.columnName;
         const id = this.columnId;
         this.$store.dispatch('editColumn', {name, id})
+      },
+      deleteCard(id){
+        const columnId = this.columnId;
+        this.$store.commit('deleteCard', {id, columnId})
       }
     },
     watch:{
       cards: {
+        deep:true,
         handler: function(value) {
           if(!value) {
              return
           }
+          console.log('cards watcher');
           this.$store.dispatch('setCards', {cards:value, columnId: this.columnId})
-
         },
       }
       // cards: (value) =>{

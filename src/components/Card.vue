@@ -19,6 +19,13 @@
       </span>
 
       <span :class="{
+        'delete-card': disabled,
+        'hide':!disabled}"
+        @click="deleteCard"
+        > <i class="material-icons">delete</i> 
+      </span>
+
+      <span :class="{
         'hide': disabled,
         'save-card': !disabled}" 
         @click="editCard"
@@ -38,7 +45,7 @@ import CardTextArea from "./lib/input/CardTextArea"
     },
     data(){
       return{
-        name:this.card.name,
+        name: this.card.name,
         disabled:true,
       }
     },
@@ -52,6 +59,10 @@ import CardTextArea from "./lib/input/CardTextArea"
         const name = this.name;
         const id = this.card.id;
         this.$emit('edit-card', {name, id} );
+      },
+      deleteCard(){
+        const id = this.card.id;
+        this.$emit('delete-card', id);
       }
     },
     props:{
@@ -87,6 +98,7 @@ import CardTextArea from "./lib/input/CardTextArea"
   position:relative;
   height: auto;
   min-height: 35px;
+  user-select: none;
 }
 .save-card{
   display:block;
@@ -104,11 +116,24 @@ import CardTextArea from "./lib/input/CardTextArea"
   font-size: 20px;
   opacity:.6;
   top: 0;
+  right: 24px;    
+  padding: 0px;
+  /* background: #C9C8C9; */
+}
+.delete-card{
+  display:none;
+  position: absolute;
+  font-size: 20px;
+  opacity:.6;
+  top: 0;
   right: 0;    
   padding: 0px;
-  background: #C9C8C9;
+  /* background: #C9C8C9; */
 }
 .card:hover .edit-card{
+  display:block;
+}
+.card:hover .delete-card{
   display:block;
 }
 .card-input:focus {

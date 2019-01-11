@@ -28,6 +28,7 @@ export const store = new Vuex.Store({
     },
 
     setCards: (context, data) => {
+      console.log('setCards', data);
       const { cards, columnId } = data;
 
       let columns = context.getters.getColumns;
@@ -85,6 +86,17 @@ export const store = new Vuex.Store({
       })
     },
 
+    // deleteCard: (context, data) => {
+    //   const { columnId, id } = data;
+      
+    //   let columns = context.getters.getColumns.map(column => {
+    //     if (column.id == columnId) {
+    //       let updatedCards = column.cards.filter(card => card.id !== id);
+    //       context.dispatch('setCards', {cards: updatedCards, columnId: columnId})
+    //     }
+    //   })
+    // },
+
     editColumn: (context, data) => {
       let columns = context.getters.getColumns.map((column) => {
         if (column.id == data.id) {
@@ -101,8 +113,24 @@ export const store = new Vuex.Store({
         console.log('no columns for mutation');
         return
       }
-
+      console.log('mutation')
       state.columns = payload;
     },
+
+    deleteCard: (state, payload) => {
+      if (!payload) {
+        console.log('no columns for mutation');
+        return
+      }
+      const { columnId, id } = payload;
+
+      let columns = state.columns.map(column => {
+        if (column.id == columnId) {
+          let updatedCards = column.cards.filter(card => card.id !== id);
+          column.cards = updatedCards;  
+        }
+      })
+      state.columns = columns;
+    }
   }
 });

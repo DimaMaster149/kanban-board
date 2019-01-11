@@ -9,7 +9,7 @@
         @Add="drag=false">
         
         <column class="drag-column"
-          v-for="column in columns"
+          v-for="column in updatedColumns"
           :key="column.id"
           :column="column"
         ></column>
@@ -63,19 +63,12 @@ export default {
       this.columns = data.columns;
     }
   },
-  // computed:{
-  //   columns() {
-  //     return this.$store.state.columns;
-  //   },
-    // updatedColumns(){
-    //   // console.log('computed col', this.columns )
-    //   console.log('watcher');
-    //   this.columns ? 
-    //   this.$store.dispatch('setColumns', this.columns) : 
-    //   this.$store.dispatch('setColumns', data.columns);
-    //   return this.columns ? this.columns : data.columns;
-    // }
-  //},
+  computed:{
+    updatedColumns: function() {
+      console.log(this.columns, 'computed');
+      return this.$store.getters.getColumns;
+    }
+  },
   watch:{
     columns: {
       deep:true,
@@ -83,6 +76,8 @@ export default {
         if(!value) {
           return
         }
+        console.log(value, 'columns');
+        console.log('columns watcher');
         this.$store.dispatch('setColumns', value);
       },
     }
