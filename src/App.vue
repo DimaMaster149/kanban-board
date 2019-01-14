@@ -66,7 +66,7 @@ export default {
   computed:{
     updatedColumns: function() {
       console.log(this.columns, 'computed');
-      return this.$store.getters.getColumns;
+        return this.$store.getters.getColumns;
     }
   },
   watch:{

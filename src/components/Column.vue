@@ -104,14 +104,15 @@ import CardTextArea from './lib/input/CardTextArea'
       }
     },
     watch:{
-      cards: {
+      column: {
         deep:true,
         handler: function(value) {
           if(!value) {
              return
           }
-          console.log('cards watcher');
-          this.$store.dispatch('setCards', {cards:value, columnId: this.columnId})
+          this.cards = this.column.cards;
+          console.log(value.cards, 'value from cards watcher');
+          this.$store.dispatch('setCards', {cards:value.cards, columnId: this.columnId})
         },
       }
       // cards: (value) =>{
